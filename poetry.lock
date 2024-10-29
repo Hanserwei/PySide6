@@ -174,4 +174,4 @@ qt6-applications = ">=6.4.3.2.2,<6.4.3.3"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "d324331475f00d7b2ef044468ad798ef78914f82caaa27d704d5fbc60f163360"
+content-hash = "afcb7132312be4b669c691d3f95119b01336021ac9c8e2f31fcc5fe0994d4f99"
