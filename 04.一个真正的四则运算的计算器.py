@@ -1,7 +1,7 @@
 import sys
-from urllib.response import addbase
 
-from PySide6.QtWidgets import QApplication,QWidget
+
+from PyQt6.QtWidgets import QApplication,QWidget
 from 计算器 import Ui_Form
 
 class MyWindow(QWidget,Ui_Form):

@@ -1,7 +1,7 @@
 import sys
 
 
-from PySide6.QtWidgets import QApplication,QWidget,QLineEdit
+from PyQt6.QtWidgets import QApplication,QWidget,QLineEdit
 from 登录框 import Ui_Form
 
 class MyWindow(QWidget,Ui_Form):
