@@ -1,3 +1,4 @@
+import re
 import sys
 from PyQt6.QtWidgets import QApplication, QWidget, QMessageBox
 from 进制转化 import Ui_Form  # 确保这个模块是正确生成的
@@ -10,6 +11,10 @@ class MainWindow(QWidget, Ui_Form):
         self.c2 = ''  # 输出进制
         self.setupUi(self)  # 初始化 UI
         self.lineEdit_2.setReadOnly(True)  # 设置输出框为只读
+        self.bind()
+        self.input_value = ''  # 初始化输入值
+
+    def bind(self):
         self.lineEdit.textEdited.connect(self.get_input)  # 监听输入框变化
         self.comboBox.currentTextChanged.connect(self.choice_1)  # 监听输入进制选择
         self.comboBox_2.currentTextChanged.connect(self.choice_2)  # 监听输出进制选择
@@ -28,6 +33,10 @@ class MainWindow(QWidget, Ui_Form):
         print(f"选择输出进制: {self.c2}")  # 调试输出
 
     def start(self):
+        if not self.c1 or not self.c2:
+            QMessageBox.warning(self, "错误", "请选择输入和输出进制")  # 提示未选择进制
+            return
+
         try:
             result = self.calculation(self.input_value, self.c1, self.c2)
             self.lineEdit_2.setText(result)  # 显示结果
@@ -35,6 +44,16 @@ class MainWindow(QWidget, Ui_Form):
             QMessageBox.warning(self, "错误", str(e))
 
     def calculation(self, value, base_from, base_to):
+        # 检查输入值是否有效
+        if base_from == "十六进制" and not re.match(r'^[0-9A-Fa-f]+$', value):
+            raise ValueError("无效的十六进制数")
+        elif base_from == "十进制" and not value.isdigit():
+            raise ValueError("无效的十进制数")
+        elif base_from == "八进制" and not re.match(r'^[0-7]+$', value):
+            raise ValueError("无效的八进制数")
+        elif base_from == "二进制" and not re.match(r'^[01]+$', value):
+            raise ValueError("无效的二进制数")
+
         # 将输入值转换为十进制
         if base_from == "十六进制":
             decimal_value = int(value, 16)
@@ -64,6 +83,8 @@ class MainWindow(QWidget, Ui_Form):
         self.lineEdit_2.clear()  # 清空输出框
         self.comboBox.setCurrentIndex(0)  # 重置输入进制选择
         self.comboBox_2.setCurrentIndex(0)  # 重置输出进制选择
+        self.c1 = ''  # 重置输入进制
+        self.c2 = ''  # 重置输出进制
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
